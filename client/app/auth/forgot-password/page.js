@@ -7,6 +7,7 @@ import { useContext, useState } from "react";
 import { toast } from "react-toastify";
 
 const ForgotPasswordPage = () => {
+
     const [email, setEmail] = useState("");
     const { isLoading, setIsLoading } = useContext(DataContext);
     const [isButtonLoading, setIsButtonLoading] = useState(false);

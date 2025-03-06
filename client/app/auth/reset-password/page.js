@@ -1,18 +1,18 @@
 "use client";
 
+import { Suspense, useState, useContext } from "react";
 import DataContext from "@/app/context/DataContext";
 import { resetPassword } from "@/app/utils/auth";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useContext, useState } from "react";
 import { toast } from "react-toastify";
 
 const ResetPasswordPage = () => {
     const [newPassword, setNewPassword] = useState("");
-    const searchParams = useSearchParams();
+    const searchParams = useSearchParams()
     const token = searchParams.get("token");
     const router = useRouter();
 
-    const { setIsLoading, setIsLogin } = useContext(DataContext);
+    const { setIsLoading } = useContext(DataContext);
     const [isButtonLoading, setIsButtonLoading] = useState(false);
     const [isResponse, setIsResponse] = useState(false);
 
@@ -21,9 +21,8 @@ const ResetPasswordPage = () => {
         setIsLoading(true);
         setIsButtonLoading(true);
         try {
-            const response = await resetPassword(token, newPassword);
-            setIsLogin(true);
-            toast.success(response.message);
+            const response = await resetPassword(token, newPassword)
+            toast.success(response.message)
             setIsResponse(true);
             setTimeout(() => {
                 router.push("/");
@@ -74,4 +73,10 @@ const ResetPasswordPage = () => {
     );
 };
 
-export default ResetPasswordPage;
+const WrappedResetPasswordPage = () => (
+    <Suspense fallback={<div className="text-white text-center mt-10">Loading...</div>}>
+        <ResetPasswordPage />
+    </Suspense>
+);
+
+export default WrappedResetPasswordPage;

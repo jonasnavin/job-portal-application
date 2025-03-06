@@ -26,7 +26,7 @@ const ProfileDetailsPage = () => {
         setProfile(response.candidate)
 
         if (response.candidate?.resume) {
-            generatePdfPreviews(`https://job-portal-application-dkui.onrender.com/${response.candidate.resume}`)
+            generatePdfPreviews(`http://localhost:5000/${response.candidate.resume}`)
         }
     }
 
@@ -110,7 +110,7 @@ const ProfileDetailsPage = () => {
                                         Update Resume
                                     </Link>
                                 )}
-                                <a href={`https://job-portal-application-dkui.onrender.com/${profile.resume}`} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-500 underline">
+                                <a href={`http://localhost:5000/${profile.resume}`} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-500 underline">
                                     Download Resume
                                 </a>
                             </div>
