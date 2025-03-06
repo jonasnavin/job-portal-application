@@ -19,18 +19,13 @@ const Navbar = () => {
     const handleLogout = async () => {
         setIsLoading(true)
         await logout()
-        localStorage.removeItem("token")
+        localStorage.removeItem("userData")
         setIsLoading(false)
         router.push("/")
         setIsLogin(false)
         setUserData(null)
         setIsSidebarOpen(false)
     }
-
-    useEffect(() => {
-        const storedToken = localStorage.getItem("token")
-        setIsLogin(storedToken && storedToken !== "undefined")
-    }, [setIsLogin])
 
     const handleOutsideClick = (event) => {
         if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {

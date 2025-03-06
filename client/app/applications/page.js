@@ -12,7 +12,7 @@ const Page = () => {
     const [selectedApplication, setSelectedApplication] = useState(null);
     const router = useRouter();
 
-    const {setUserData} = useContext(DataContext)
+    const { setUserData } = useContext(DataContext)
 
     const fetchApplications = async () => {
         try {
@@ -41,7 +41,7 @@ const Page = () => {
             setApplications((prevApplications) =>
                 prevApplications.map((application) =>
                     application.jobId._id === selectedApplication.jobId._id &&
-                    application.userId._id === selectedApplication.userId._id
+                        application.userId._id === selectedApplication.userId._id
                         ? { ...application, status: selectedStatus }
                         : application
                 )
@@ -57,11 +57,11 @@ const Page = () => {
         setShowConfirmation(false);
         setSelectedStatus(null);
         setSelectedApplication(null);
-    };
+    }
 
     useEffect(() => {
-        fetchApplications();
-    }, [fetchApplications]);
+        fetchApplications()
+    }, [fetchApplications])
 
     return (
         <div className="max-w-4xl mx-auto p-6 bg-gray-900 min-h-screen text-gray-200">

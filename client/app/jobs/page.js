@@ -26,12 +26,12 @@ const Page = () => {
 
     useEffect(() => {
         fetchJobs();
-    }, [fetchJobs]);
+    }, []);
 
     return (
         <>
             {isLoading ? (
-                <div className="flex justify-center items-center min-h-screen bg-gray-800 text-white">
+                <div className="flex justify-center items-center min-h-screen bg-gray-900 text-white">
                     <p className="text-lg">Loading...</p>
                 </div>
             ) : (
@@ -72,8 +72,8 @@ const Page = () => {
                                             className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition"
                                         >
                                             {userData?.role === "Admin" ||
-                                            userData?.role === "HR" ||
-                                            userData?.role === "Manager"
+                                                userData?.role === "HR" ||
+                                                userData?.role === "Manager"
                                                 ? "View"
                                                 : "Apply Now"}
                                         </button>

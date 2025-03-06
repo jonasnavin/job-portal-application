@@ -2,10 +2,10 @@
 
 import { verifyEmail } from "@/app/utils/auth";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-const VerifyPage = () => {
+const VerifyEmailPage = () => {
     const searchParams = useSearchParams();
     const token = searchParams.get("token");
     const [message, setMessage] = useState("Verifying...");
@@ -28,7 +28,8 @@ const VerifyPage = () => {
 
     useEffect(() => {
         verify();
-    }, [verify]);
+        console.log("Error")
+    }, []);
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-900 px-4">
@@ -40,4 +41,10 @@ const VerifyPage = () => {
     );
 };
 
-export default VerifyPage;
+export default function Page() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <VerifyEmailPage />
+        </Suspense>
+    );
+}

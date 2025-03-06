@@ -8,6 +8,7 @@ import 'pdfjs-dist/build/pdf.worker.mjs'
 import "../../styles/uploadResume.css"
 import DataContext from '@/app/context/DataContext'
 import useAuthCheck from '@/app/hooks/useAuthCheck'
+import Image from 'next/image'
 
 const Page = () => {
 
@@ -94,7 +95,14 @@ const Page = () => {
                             <p className="text-sm text-gray-400 mb-2">PDF Preview:</p>
                             <div className="max-h-96 overflow-y-auto space-y-2 scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-700 scrollbar-thumb-rounded">
                                 {pdfPreviews.map((preview, index) => (
-                                    <img key={index} src={preview} alt={`Page ${index + 1}`} className="w-full rounded shadow-md" />
+                                    <Image
+                                        key={index}
+                                        src={preview}
+                                        alt={`Page ${index + 1}`}
+                                        width={500}
+                                        height={800}
+                                        className="rounded shadow-md"
+                                    />
                                 ))}
                             </div>
                         </div>

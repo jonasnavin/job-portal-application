@@ -16,7 +16,7 @@ const JobByIdPage = () => {
     const { userData } = useContext(DataContext)
 
     useEffect(() => {
-        if (!id) return // Avoid unnecessary API calls
+        if (!id) return
         const fetchJob = async () => {
             try {
                 const response = await getJobById(id)

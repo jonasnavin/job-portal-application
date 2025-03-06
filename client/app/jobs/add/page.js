@@ -3,6 +3,7 @@
 import DataContext from "@/app/context/DataContext"
 import useAuthCheck from "@/app/hooks/useAuthCheck"
 import { createJob } from "@/app/utils/jobs"
+import { useRouter } from "next/navigation"
 import { useContext, useState } from "react"
 import { toast } from "react-toastify"
 
@@ -11,6 +12,8 @@ const AddJobPage = () => {
     const { isAuthenticated, loading } = useAuthCheck()
 
     const { userData, setUserData } = useContext(DataContext)
+
+    const router = useRouter()
 
     const [formData, setFormData] = useState({
         title: "",
@@ -87,6 +90,7 @@ const AddJobPage = () => {
 
         try {
             const response = await createJob(formData)
+            router.push("/jobs")
             setUserData(response.user)
             toast.success(response.message)
             setFormData({

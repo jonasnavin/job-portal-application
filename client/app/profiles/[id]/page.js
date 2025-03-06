@@ -9,6 +9,7 @@ import "pdfjs-dist/build/pdf.worker.mjs"
 import "../../styles/uploadResume.css"
 import DataContext from "@/app/context/DataContext"
 import useAuthCheck from "@/app/hooks/useAuthCheck"
+import Image from "next/image"
 
 const ProfileDetailsPage = () => {
 
@@ -59,6 +60,7 @@ const ProfileDetailsPage = () => {
     useEffect(() => {
         if (isAuthenticated) {
             fetchProfile()
+            console.log("Error")
         }
     }, [isAuthenticated])
 
@@ -94,13 +96,32 @@ const ProfileDetailsPage = () => {
                             ))}
                         </div>
                     </div>
+
+                    {!profile.resume && (
+                        <div className="mt-3 flex justify-between items-center">
+                            {userData?.role === "User" && (
+                                <Link href={"/profiles/upload-resume"} className="text-blue-400 hover:text-blue-500 underline">
+                                    Upload Resume
+                                </Link>
+                            )}
+                        </div>
+                    )
+                    }
+
                     {profile.resume && (
                         <div className="mt-8">
                             <h4 className="text-lg font-semibold text-gray-100 mb-2">Resume</h4>
                             <div className="border rounded-lg overflow-hidden p-4 bg-gray-700 shadow-sm">
                                 <div className="max-h-96 overflow-y-auto space-y-2 scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-500 scrollbar-thumb-rounded">
                                     {pdfPreviews.map((preview, index) => (
-                                        <img key={index} src={preview} alt={`Page ${index + 1}`} className="w-full rounded-md shadow-sm" />
+                                        <Image
+                                            key={index}
+                                            src={preview}
+                                            alt={`Page ${index + 1}`}
+                                            width={1200}
+                                            height={800}
+                                            className="rounded shadow-md"
+                                        />
                                     ))}
                                 </div>
                             </div>

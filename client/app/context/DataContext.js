@@ -6,8 +6,6 @@ const DataContext = createContext()
 
 export const DataProvider = ({ children, token }) => {
 
-    const [authToken, setAuthToken] = useState(token)
-
     const [userData, setUserData] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
     const [isLogin, setIsLogin] = useState(false)
@@ -27,7 +25,9 @@ export const DataProvider = ({ children, token }) => {
     }, [token])
 
 
-    useEffect(() => { setIsLoading(false) }, [])
+    useEffect(() => {
+        setIsLoading(false)
+    }, [])
 
     return (
         <DataContext.Provider
