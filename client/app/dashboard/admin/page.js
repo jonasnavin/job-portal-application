@@ -57,13 +57,7 @@ const Page = () => {
         } else {
             setAnalyticsData(null)
         }
-    }, [isAuthenticated])
-
-    useEffect(() => {
-        if (!loading && !isAuthenticated) {
-            router.push("/")
-        }
-    }, [isAuthenticated, loading])
+    }, [getAnalytics, isAuthenticated])
 
     return (
         <>

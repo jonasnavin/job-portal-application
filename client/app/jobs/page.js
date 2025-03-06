@@ -26,7 +26,7 @@ const Page = () => {
 
     useEffect(() => {
         fetchJobs();
-    }, []);
+    }, [fetchJobs]);
 
     return (
         <>
