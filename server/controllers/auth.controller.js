@@ -3,6 +3,9 @@ const crypto = require('crypto')
 const bcrypt = require('bcryptjs')
 const { generateToken } = require('../utils/generateToken')
 const sendEmail = require('../configs/sendGridMail.config')
+const { NODE_ENV, CLIENT_URL } = require('../configs/config')
+
+const client_url = NODE_ENV === "development" ? "http://localhost:3000" : CLIENT_URL
 
 const signUp = async (req, res) => {
     try {
@@ -27,7 +30,7 @@ const signUp = async (req, res) => {
         user.emailVerificationToken = verificationToken
         await user.save()
 
-        const verificationUrl = `http://localhost:3000/auth/verify-email?token=${verificationToken}`
+        const verificationUrl = `${client_url}/auth/verify-email?token=${verificationToken}`
 
         await sendEmail(
             user.email,
@@ -94,7 +97,7 @@ const resetPasswordRequest = async (req, res) => {
         user.resetPasswordExpires = Date.now() + 3600000
         await user.save()
 
-        const resetUrl = `http://localhost:3000/auth/reset-password?token=${resetToken}`
+        const resetUrl = `${client_url}/auth/reset-password?token=${resetToken}`
         await sendEmail(
             user.email,
             "Password Reset Request",
@@ -126,7 +129,7 @@ const resetPassword = async (req, res) => {
         user.resetPasswordExpires = undefined
         await user.save()
 
-        const appUrl = `http://localhost:3000/auth/login`
+        const appUrl = `${client_url}/auth/login`
         await sendEmail(
             user.email,
             "Password Reset Successful",
