@@ -12,7 +12,7 @@ const LoginPage = () => {
     const [password, setPassword] = useState("")
     const router = useRouter()
 
-    const { setUserData, setIsLogin, setIsLoading } = useContext(DataContext)
+    const { setUserData, setIsLogin, setIsLoading, isLoading } = useContext(DataContext)
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -32,10 +32,15 @@ const LoginPage = () => {
     }
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-900 px-4">
+        <div className="flex flex-col items-center min-h-screen bg-gray-900 text-white p-6">
             <div className="bg-gray-800 shadow-lg rounded-2xl p-8 w-full max-w-md">
-                <h1 className="text-2xl font-semibold text-white mb-6 text-center">Login</h1>
-                <form onSubmit={handleSubmit} className="flex flex-col space-y-4">
+                <h1 className="text-2xl font-semibold text-white mb-6 text-center">
+                    Login
+                </h1>
+                <form
+                    onSubmit={handleSubmit}
+                    className="flex flex-col space-y-4"
+                >
                     <input
                         className="border border-gray-600 bg-gray-700 text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         type="email"
@@ -54,19 +59,26 @@ const LoginPage = () => {
                     />
                     <button
                         type="submit"
+                        disabled={isLoading}
                         className="bg-blue-600 text-white rounded-lg py-2 hover:bg-blue-700 transition"
                     >
                         Login
                     </button>
                 </form>
                 <div className="mt-4 text-center">
-                    <Link href="/auth/forgot-password" className="text-sm text-blue-400 hover:underline">
+                    <Link
+                        href="/auth/forgot-password"
+                        className="text-sm text-blue-400 hover:underline"
+                    >
                         Forgot Password?
                     </Link>
                 </div>
                 <div className="mt-2 text-center text-sm text-gray-300">
                     {"Don't have an account?"}{" "}
-                    <Link href="/auth/signup" className="text-blue-400 hover:underline">
+                    <Link
+                        href="/auth/signup"
+                        className="text-blue-400 hover:underline"
+                    >
                         Signup
                     </Link>
                 </div>

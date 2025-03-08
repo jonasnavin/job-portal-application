@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken")
-const { JWT_SECRET, NODE_ENV } = require("../configs/config")
+const { JWT_SECRET } = require("../configs/config")
 
 const generateToken = (res, userId, role) => {
 
@@ -7,8 +7,8 @@ const generateToken = (res, userId, role) => {
         const token = jwt.sign({ userId, role }, JWT_SECRET, { expiresIn: "3d" })
         res.cookie("token", token, {
             httpOnly: true,
-            secure: NODE_ENV === "production",
-            sameSite: NODE_ENV === "production" ? "None" : "Lax",
+            secure: true,
+            sameSite: "None",
             maxAge: 3 * 24 * 60 * 60 * 1000,
         })
         return token

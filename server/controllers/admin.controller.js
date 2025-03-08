@@ -46,7 +46,7 @@ const getSystemAnalytics = async (req, res) => {
 
         const totalCandidates = profiles.filter(profile => profile.userId.role === "User").length
 
-        const users = await User.find()
+        const users = await User.find().select("-password")
 
         res.status(200).json({ totalUsers, totalCandidates, totalApplications, users, admin: req.user })
     } catch (error) {

@@ -2,14 +2,28 @@
 
 import { useRouter } from "next/navigation";
 import "./styles/globals.css";
+import getToken from "./utils/cookie";
+import { useContext, useEffect, useState } from "react";
+import DataContext from "./context/DataContext";
 
 export default function Home() {
+
+  const { setTokenValue } = useContext(DataContext)
+
+  useEffect(() => {
+    const fetchToken = async () => {
+      const token = await getToken()
+      setTokenValue(token)
+    };
+    fetchToken();
+  }, []);
+
+
   const router = useRouter();
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-gray-200 p-6">
 
-      {/* Hero Section */}
       <div className="text-center mb-10">
         <h1 className="text-4xl font-bold text-white mb-4">
           Join Our Team
@@ -19,7 +33,6 @@ export default function Home() {
         </p>
       </div>
 
-      {/* Call-to-Action Button */}
       <button
         onClick={() => router.push("/jobs")}
         className="bg-blue-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-700 transition-transform transform hover:scale-105"
@@ -27,7 +40,6 @@ export default function Home() {
         Explore Open Positions
       </button>
 
-      {/* Why Join Us? Section */}
       <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl">
         <div className="p-6 bg-gray-800 shadow-lg rounded-lg text-center hover:bg-gray-700 transition">
           <h3 className="text-xl font-semibold text-white">Great Culture</h3>

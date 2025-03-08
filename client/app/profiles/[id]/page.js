@@ -10,6 +10,7 @@ import "../../styles/uploadResume.css"
 import DataContext from "@/app/context/DataContext"
 import useAuthCheck from "@/app/hooks/useAuthCheck"
 import Image from "next/image"
+import { API_URL } from "@/app/utils/api"
 
 const ProfileDetailsPage = () => {
 
@@ -19,15 +20,16 @@ const ProfileDetailsPage = () => {
     const [pdfPreviews, setPdfPreviews] = useState([])
     const { id } = useParams()
 
-    const { userData, setUserData } = useContext(DataContext)
+    const { userData, setUserData, setIsLogin } = useContext(DataContext)
 
     const fetchProfile = async () => {
         const response = await getProfileById(id)
         setUserData(response.user)
         setProfile(response.candidate)
+        setIsLogin(true)
 
         if (response.candidate?.resume) {
-            generatePdfPreviews(`https://job-portal-application-dkui.onrender.com/${response.candidate.resume}`)
+            generatePdfPreviews(`${API_URL}${response.candidate.resume}`)
         }
     }
 
@@ -64,7 +66,7 @@ const ProfileDetailsPage = () => {
         }
     }, [isAuthenticated])
 
-    if (!profile) {
+    if (loading) {
         return <div className="min-h-screen flex items-center justify-center text-gray-600">Loading...</div>
     }
 
@@ -97,7 +99,7 @@ const ProfileDetailsPage = () => {
                         </div>
                     </div>
 
-                    {!profile.resume && (
+                    {!profile?.resume && (
                         <div className="mt-3 flex justify-between items-center">
                             {userData?.role === "User" && (
                                 <Link href={"/profiles/upload-resume"} className="text-blue-400 hover:text-blue-500 underline">
@@ -108,7 +110,7 @@ const ProfileDetailsPage = () => {
                     )
                     }
 
-                    {profile.resume && (
+                    {profile?.resume && (
                         <div className="mt-8">
                             <h4 className="text-lg font-semibold text-gray-100 mb-2">Resume</h4>
                             <div className="border rounded-lg overflow-hidden p-4 bg-gray-700 shadow-sm">
@@ -131,7 +133,7 @@ const ProfileDetailsPage = () => {
                                         Update Resume
                                     </Link>
                                 )}
-                                <a href={`https://job-portal-application-dkui.onrender.com/${profile.resume}`} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-500 underline">
+                                <a href={`${API_URL}/${profile.resume}`} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-500 underline">
                                     Download Resume
                                 </a>
                             </div>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import getToken from '../utils/cookie' // Assuming getToken retrieves token from cookies or session storage
+import getToken from '../utils/cookie'
 
 const useAuthCheck = () => {
     const [loading, setLoading] = useState(true)
@@ -9,14 +9,14 @@ const useAuthCheck = () => {
 
     useEffect(() => {
         const checkAuth = async () => {
-            const token = await getToken() // Retrieve token
+            const token = await getToken()
             if (token) {
-                setIsAuthenticated(true) // Token exists, so user is authenticated
+                setIsAuthenticated(true)
             } else {
-                setIsAuthenticated(false) // No token found, user is not authenticated
-                router.push('/auth/login') // Redirect to login page
+                setIsAuthenticated(false)
+                router.push('/auth/login')
             }
-            setLoading(false) // Set loading to false once the check is complete
+            setLoading(false)
         }
 
         checkAuth()

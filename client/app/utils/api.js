@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const API_URL = "https://job-portal-application-dkui.onrender.com/api"
+export const API_URL = process.env.NODE_ENV === "production" ? "https://job-portal-application-dkui.onrender.com" : "http://localhost:5000"
 
 const API = axios.create({
   baseURL: API_URL,

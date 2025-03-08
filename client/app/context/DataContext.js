@@ -4,11 +4,12 @@ const { createContext, useState, useEffect } = require("react");
 
 const DataContext = createContext()
 
-export const DataProvider = ({ children, token }) => {
+export const DataProvider = ({ children }) => {
 
     const [userData, setUserData] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
     const [isLogin, setIsLogin] = useState(false)
+    const [tokenValue, setTokenValue] = useState("")
 
     useEffect(() => {
         if (typeof window !== "undefined") {
@@ -19,10 +20,10 @@ export const DataProvider = ({ children, token }) => {
     }, [setUserData])
 
     useEffect(() => {
-        if (token) {
+        if (tokenValue) {
             setIsLogin(true)
         }
-    }, [token])
+    }, [tokenValue])
 
 
     useEffect(() => {
@@ -34,7 +35,8 @@ export const DataProvider = ({ children, token }) => {
             value={{
                 userData, setUserData,
                 isLoading, setIsLoading,
-                isLogin, setIsLogin
+                isLogin, setIsLogin,
+                setTokenValue, tokenValue
             }}
         >
             {children}

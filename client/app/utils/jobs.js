@@ -2,7 +2,7 @@ import API from "./api"
 
 export const getJobs = async () => {
   try {
-    const response = await API.get("/jobs")
+    const response = await API.get("/api/jobs")
     return response.data
   } catch (error) {
     throw error.response?.data || "Failed to fetch jobs"
@@ -11,7 +11,7 @@ export const getJobs = async () => {
 
 export const getJobById = async (jobId) => {
   try {
-    const response = await API.get(`/jobs/${jobId}`)
+    const response = await API.get(`/api/jobs/${jobId}`)
     return response.data
   } catch (error) {
     throw error.response?.data || "Failed to fetch job details"
@@ -20,7 +20,7 @@ export const getJobById = async (jobId) => {
 
 export const createJob = async (jobData) => {
   try {
-    const response = await API.post("/jobs/add", jobData)
+    const response = await API.post("/api/jobs/add", jobData)
     return response.data
   } catch (error) {
     throw error.response?.data || "Failed to create job"
@@ -29,7 +29,7 @@ export const createJob = async (jobData) => {
 
 export const updateJob = async (jobId, jobData) => {
   try {
-    const response = await API.put(`/jobs/update/${jobId}`, jobData)
+    const response = await API.put(`/api/jobs/update/${jobId}`, jobData)
     return response.data
   } catch (error) {
     throw error.response?.data || "Failed to update job"
@@ -38,7 +38,7 @@ export const updateJob = async (jobId, jobData) => {
 
 export const deleteJob = async (jobId) => {
   try {
-    const response = await API.delete(`/jobs/remove/${jobId}`)
+    const response = await API.delete(`/api/jobs/remove/${jobId}`)
     return response.data
   } catch (error) {
     throw error.response?.data || "Failed to delete job"

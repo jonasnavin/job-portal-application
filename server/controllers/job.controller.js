@@ -29,13 +29,13 @@ const createJob = async (req, res) => {
 const getAllJobs = async (req, res) => {
     try {
         const jobs = await Job.find()
-            .populate("postedBy", "name email -_id")
+            .populate("postedBy", "name email")
             .populate({
                 path: 'applicants',
-                select: "skills experience education resume location -_id",
+                select: "skills experience education resume location",
                 populate: {
                     path: 'userId',
-                    select: 'name email -_id'
+                    select: 'name email'
                 }
             })
         res.status(200).json({ jobs })
@@ -54,7 +54,7 @@ const getJobById = async (req, res) => {
                 select: "skills experience education resume location -_id",
                 populate: {
                     path: 'userId',
-                    select: 'name email -_id'
+                    select: 'name email'
                 }
             })
 

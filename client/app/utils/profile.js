@@ -2,7 +2,7 @@ import API from "./api"
 
 export const getProfiles = async () => {
   try {
-    const response = await API.get("/profiles")
+    const response = await API.get("/api/profiles")
     return response.data
   } catch (error) {
     throw error.response?.data || "Failed to fetch profiles"
@@ -10,7 +10,7 @@ export const getProfiles = async () => {
 }
 export const getProfileById = async (userId) => {
   try {
-    const response = await API.get(`/profiles/${userId}`)
+    const response = await API.get(`/api/profiles/${userId}`)
     return response.data
   } catch (error) {
     throw error.response?.data || "Failed to fetch profile"
@@ -18,7 +18,7 @@ export const getProfileById = async (userId) => {
 }
 export const addProfile = async (profileData) => {
   try {
-    const response = await API.post("/profiles/add", profileData)
+    const response = await API.post("/api/profiles/add", profileData)
     return response.data
   } catch (error) {
     throw error.response?.data || "Failed to add profile"
@@ -26,7 +26,7 @@ export const addProfile = async (profileData) => {
 }
 export const updateProfile = async (profileData) => {
   try {
-    const response = await API.put("/profiles/update", profileData)
+    const response = await API.put("/api/profiles/update", profileData)
     return response.data
   } catch (error) {
     throw error.response?.data || "Failed to update profile"
@@ -38,7 +38,7 @@ export const uploadResume = async (file) => {
   formData.append("resume", file)
 
   try {
-    const response = await API.post("/profiles/upload-resume", formData, {
+    const response = await API.post("/api/profiles/upload-resume", formData, {
       headers: { "Content-Type": "multipart/form-data" },
     })
     return response.data

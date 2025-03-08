@@ -2,10 +2,11 @@
 
 import { useContext, useEffect, useState } from "react"
 import { useRouter, useParams } from "next/navigation"
-import { getJobById, updateJob } from "@/app/utils/jobs" // Utility functions to fetch and update job
+import { getJobById, updateJob } from "@/app/utils/jobs"
 import { toast } from "react-toastify"
 import DataContext from "@/app/context/DataContext"
 import useAuthCheck from "@/app/hooks/useAuthCheck"
+import Loading from "@/app/components/Loading"
 
 const UpdateJobPage = () => {
 
@@ -32,12 +33,11 @@ const UpdateJobPage = () => {
     const [descriptionPoint, setDescriptionPoint] = useState("")
     const [qualificationPoint, setQualificationPoint] = useState("")
 
-    const { setUserData } = useContext(DataContext)
+    const { setUserData, setIsLogin } = useContext(DataContext)
 
     const { id } = useParams()
     const router = useRouter()
 
-    // Fetch job details by ID
     const fetchJob = async (id) => {
         try {
             const response = await getJobById(id)
@@ -50,10 +50,10 @@ const UpdateJobPage = () => {
     useEffect(() => {
         if (id && isAuthenticated) {
             fetchJob(id)
+            setIsLogin(true)
         }
     }, [id, isAuthenticated])
 
-    // Add a point to description or qualifications
     const handleAddPoint = (type, value) => {
         if (value.trim()) {
             setFormData({
@@ -65,7 +65,6 @@ const UpdateJobPage = () => {
         }
     }
 
-    // Remove a point from description or qualifications
     const handleRemovePoint = (type, index) => {
         const updatedList = formData[type].filter((_, i) => i !== index)
         setFormData({ ...formData, [type]: updatedList })
@@ -74,7 +73,6 @@ const UpdateJobPage = () => {
         }
     }
 
-    // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault()
         setTouched({
@@ -98,21 +96,17 @@ const UpdateJobPage = () => {
         }
 
         try {
-            const response = await updateJob(id, formData) // Update job details
+            const response = await updateJob(id, formData)
             setUserData(response.user)
             toast.success(response.message)
-            router.push("/jobs") // Redirect to jobs page after successful update
+            router.push("/jobs")
         } catch (error) {
             toast.error(error.message)
         }
     }
 
     if (loading) {
-        return (
-            <div className="flex items-center justify-center min-h-screen bg-gray-800">
-                <p className="text-white text-lg font-semibold">Loading...</p>
-            </div>
-        )
+        return (<Loading />)
     }
 
     return (
@@ -122,8 +116,7 @@ const UpdateJobPage = () => {
                     onSubmit={handleSubmit}
                     className="max-w-lg w-full mx-auto p-6 border rounded-lg shadow-lg bg-gray-800 space-y-6"
                 >
-                    {/* Job Title */}
-                    <div className="flex flex-col">
+                 <div className="flex flex-col">
                         <label className="text-sm font-medium text-gray-300 mb-1">Job Title</label>
                         <input
                             className={`w-full p-2 border rounded text-sm focus:outline-none bg-gray-700 text-white ${touched.title && !formData.title ? "border-red-500" : "focus:ring-2 focus:ring-blue-500"
@@ -139,8 +132,6 @@ const UpdateJobPage = () => {
                         />
                         {touched.title && !formData.title && <span className="text-red-500 text-xs mt-1">Required</span>}
                     </div>
-
-                    {/* Description */}
                     <div className="flex flex-col">
                         <label className="text-sm font-medium text-gray-300 mb-1">Description</label>
                         <div className="flex flex-col sm:flex-row gap-2">
@@ -187,8 +178,6 @@ const UpdateJobPage = () => {
                             <span className="text-gray-500">No description points added</span>
                         )}
                     </div>
-
-                    {/* Qualifications */}
                     <div className="flex flex-col">
                         <label className="text-sm font-medium text-gray-300 mb-1">Qualifications</label>
                         <div className="flex flex-col sm:flex-row gap-2">
@@ -237,8 +226,6 @@ const UpdateJobPage = () => {
                             <span className="text-gray-500">No qualifications added</span>
                         )}
                     </div>
-
-                    {/* Location */}
                     <div className="flex flex-col">
                         <label className="text-sm font-medium text-gray-300 mb-1">Location</label>
                         <input
@@ -255,8 +242,6 @@ const UpdateJobPage = () => {
                         />
                         {touched.location && !formData.location && <span className="text-red-500 text-xs mt-1">Required</span>}
                     </div>
-
-                    {/* Experience */}
                     <div className="flex flex-col">
                         <label className="text-sm font-medium text-gray-300 mb-1">Experience (years)</label>
                         <input
@@ -273,8 +258,6 @@ const UpdateJobPage = () => {
                         />
                         {touched.experience && !formData.experience && <span className="text-red-500 text-xs mt-1">Required</span>}
                     </div>
-
-                    {/* Job Type */}
                     <div className="flex flex-col">
                         <label className="text-sm font-medium text-gray-300 mb-1">Job Type</label>
                         <select
@@ -294,8 +277,6 @@ const UpdateJobPage = () => {
                         </select>
                         {touched.jobType && !formData.jobType && <span className="text-red-500 text-xs mt-1">Required</span>}
                     </div>
-
-                    {/* Submit Button */}
                     <button
                         type="submit"
                         className="w-full bg-green-600 cursor-pointer text-white py-2 rounded hover:bg-green-700 transition"

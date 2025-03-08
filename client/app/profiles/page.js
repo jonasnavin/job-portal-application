@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import { useContext, useEffect, useState } from "react"
 import DataContext from "../context/DataContext"
 import useAuthCheck from "../hooks/useAuthCheck"
+import Loading from "../components/Loading"
 
 const ProfilesPage = () => {
 
@@ -28,6 +29,10 @@ const ProfilesPage = () => {
       fetchProfiles()
     }
   }, [isAuthenticated])
+
+  if (loading) {
+    return (<Loading />)
+  }
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-100 p-6">

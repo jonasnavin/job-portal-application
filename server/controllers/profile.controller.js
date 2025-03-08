@@ -1,5 +1,4 @@
 const { uploadToS3 } = require("../middlewares/awsUpload.middleware")
-const { uploadToServer } = require("../middlewares/upload.middleware")
 const Profile = require("../models/profile.model")
 const User = require("../models/user.model")
 
@@ -43,7 +42,7 @@ const addProfile = async (req, res) => {
         const profile = new Profile({ userId, skills, experience, education, location })
         await profile.save()
 
-        const user = await User.findById(userId)
+        const user = await User.findById(userId).select("-password")
         user.profileId = profile._id
         user.save()
 
@@ -76,6 +75,10 @@ const uploadResumeToAWS = async (req, res) => {
     try {
         if (!req.file) {
             return res.status(400).json({ message: "No file uploaded" })
+        }
+
+        if (req.file.mimetype !== "application/pdf") {
+            return res.status(400).json({ message: "Invalid file type. Only PDF files are allowed." });
         }
 
         const fileBuffer = req.file.buffer
@@ -123,4 +126,4 @@ const uploadResume = async (req, res) => {
 }
 
 
-module.exports = { getProfiles, getProfileById, addProfile, updateProfile, uploadResume }
+module.exports = { getProfiles, getProfileById, addProfile, updateProfile, uploadResume, uploadResumeToAWS }

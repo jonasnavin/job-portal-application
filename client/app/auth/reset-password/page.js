@@ -1,45 +1,48 @@
-"use client";
+"use client"
 
-import DataContext from "@/app/context/DataContext";
-import { resetPassword } from "@/app/utils/auth";
-import { useRouter, useSearchParams } from "next/navigation";
-import { Suspense, useContext, useState } from "react";
-import { toast } from "react-toastify";
+import Loading from "@/app/components/Loading"
+import DataContext from "@/app/context/DataContext"
+import { resetPassword } from "@/app/utils/auth"
+import { useRouter, useSearchParams } from "next/navigation"
+import { Suspense, useContext, useState } from "react"
+import { toast } from "react-toastify"
 
 const ResetPasswordPage = () => {
-    const [newPassword, setNewPassword] = useState("");
-    const searchParams = useSearchParams();
-    const token = searchParams.get("token");
-    const router = useRouter();
+    const [newPassword, setNewPassword] = useState("")
+    const searchParams = useSearchParams()
+    const token = searchParams.get("token")
+    const router = useRouter()
 
-    const { setIsLoading } = useContext(DataContext);
-    const [isButtonLoading, setIsButtonLoading] = useState(false);
-    const [isResponse, setIsResponse] = useState(false);
+    const { setIsLoading } = useContext(DataContext)
+    const [isButtonLoading, setIsButtonLoading] = useState(false)
+    const [isResponse, setIsResponse] = useState(false)
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        setIsLoading(true);
-        setIsButtonLoading(true);
+        e.preventDefault()
+        setIsLoading(true)
+        setIsButtonLoading(true)
         try {
-            const response = await resetPassword(token, newPassword);
-            toast.success(response.message);
-            setIsResponse(true);
+            const response = await resetPassword(token, newPassword)
+            toast.success(response.message)
+            setIsResponse(true)
             setTimeout(() => {
-                router.push("/");
-            }, 3000);
+                router.push("/")
+            }, 3000)
         } catch (error) {
-            console.error(error);
-            toast.error(error.message);
+            console.error(error)
+            toast.error(error.message)
         } finally {
-            setIsLoading(false);
-            setIsButtonLoading(false);
+            setIsLoading(false)
+            setIsButtonLoading(false)
         }
-    };
+    }
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-900 px-4">
+        <div className="flex flex-col items-center min-h-screen bg-gray-900 text-white p-6">
             <div className="w-full max-w-md p-6 bg-gray-800 rounded-2xl shadow-xl">
-                <h2 className="text-2xl font-bold text-center text-white">Reset Password</h2>
+                <h2 className="text-2xl font-bold text-center text-white">
+                    Reset Password
+                </h2>
                 <p className="text-sm text-center text-gray-400 mb-4">
                     Enter your new password below
                 </p>
@@ -70,13 +73,13 @@ const ResetPasswordPage = () => {
                 )}
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default function Page() {
+export default function ResetPasswordRevisedPage() {
     return (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Loading />}>
             <ResetPasswordPage />
         </Suspense>
-    );
+    )
 }

@@ -1,13 +1,14 @@
 "use client"
 
+import Loading from "@/app/components/Loading"
 import DataContext from "@/app/context/DataContext"
 import useAuthCheck from "@/app/hooks/useAuthCheck"
 import { addProfile } from "@/app/utils/profile"
 import { useRouter } from "next/navigation"
-import { useState, useContext } from "react"
+import { useState, useContext, useEffect } from "react"
 import { toast } from "react-toastify"
 
-const Page = () => {
+const AddProfilePage = () => {
 
     const { isAuthenticated, loading } = useAuthCheck()
 
@@ -25,7 +26,13 @@ const Page = () => {
     })
 
     const [showModal, setShowModal] = useState(false)
-    const { userData, setUserData } = useContext(DataContext)
+    const { userData, setUserData, setIsLogin } = useContext(DataContext)
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            setIsLogin(true)
+        }
+    }, [isAuthenticated])
 
     const handleAddSkills = () => {
         if (addSkill.trim() && !skills.includes(addSkill)) {
@@ -56,7 +63,7 @@ const Page = () => {
             const response = await addProfile({ skills, experience, education, location })
             setUserData(response.user)
             toast.success(response.message)
-            setShowModal(true) // Show the modal after profile creation
+            setShowModal(true)
             setAddSkill("")
             setEducation("")
             setExperience("")
@@ -74,7 +81,11 @@ const Page = () => {
 
     const handleModalClose = () => {
         setShowModal(false)
-        router.push("/profiles/upload-resume") // Redirect to upload resume after modal close
+        router.push("/profiles/upload-resume")
+    }
+
+    if (loading) {
+        return (<Loading />)
     }
 
     return (
@@ -84,7 +95,6 @@ const Page = () => {
                     onSubmit={handleSubmit}
                     className="max-w-lg w-full mx-auto p-6 border rounded-lg shadow-lg bg-gray-800 space-y-6"
                 >
-                    {/* Skills */}
                     <div className="flex flex-col">
                         <label className="text-sm font-medium text-gray-300 mb-1">Skills</label>
                         <div className="flex flex-col sm:flex-row gap-2">
@@ -129,8 +139,6 @@ const Page = () => {
                             <span className="text-gray-500">No skills added</span>
                         )}
                     </div>
-
-                    {/* Experience */}
                     <div className="flex flex-col">
                         <label className="text-sm font-medium text-gray-300 mb-1">Experience (years)</label>
                         <select
@@ -152,8 +160,6 @@ const Page = () => {
                         </select>
                         {touched.experience && !experience && <span className="text-red-500 text-xs mt-1">Required</span>}
                     </div>
-
-                    {/* Education */}
                     <div className="flex flex-col">
                         <label className="text-sm font-medium text-gray-300 mb-1">Education</label>
                         <input
@@ -170,8 +176,6 @@ const Page = () => {
                         />
                         {touched.education && !education && <span className="text-red-500 text-xs mt-1">Required</span>}
                     </div>
-
-                    {/* Location */}
                     <div className="flex flex-col">
                         <label className="text-sm font-medium text-gray-300 mb-1">Location</label>
                         <input
@@ -197,8 +201,6 @@ const Page = () => {
                     </button>
                 </form>
             )}
-
-            {/* Modal Popup */}
             {showModal && userData.role === "User" ? (
                 <div className="fixed inset-0 flex items-center justify-center bg-black/50">
                     <div className="bg-gray-800 p-6 rounded-lg shadow-lg w-96 text-center">
@@ -227,4 +229,4 @@ const Page = () => {
     )
 }
 
-export default Page
+export default AddProfilePage

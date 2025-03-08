@@ -16,7 +16,7 @@ const s3 = new S3Client({
 })
 
 const storage = multer.memoryStorage()
-const upload = multer({ storage })
+const uploadAws = multer({ storage })
 
 const uploadToS3 = async (fileBuffer, fileName, fileType) => {
     const params = {
@@ -32,4 +32,4 @@ const uploadToS3 = async (fileBuffer, fileName, fileType) => {
     return `https://${AWS_BUCKET_NAME}.s3.${AWS_REGION}.amazonaws.com/resumes/${fileName}`
 }
 
-module.exports = { upload, uploadToS3 }
+module.exports = { uploadAws, uploadToS3 }

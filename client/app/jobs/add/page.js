@@ -1,17 +1,18 @@
 "use client"
 
+import Loading from "@/app/components/Loading"
 import DataContext from "@/app/context/DataContext"
 import useAuthCheck from "@/app/hooks/useAuthCheck"
 import { createJob } from "@/app/utils/jobs"
 import { useRouter } from "next/navigation"
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { toast } from "react-toastify"
 
 const AddJobPage = () => {
 
     const { isAuthenticated, loading } = useAuthCheck()
 
-    const { userData, setUserData } = useContext(DataContext)
+    const { userData, setUserData, setIsLogin } = useContext(DataContext)
 
     const router = useRouter()
 
@@ -115,12 +116,14 @@ const AddJobPage = () => {
         }
     }
 
+    useEffect(() => {
+        if(isAuthenticated) {
+            setIsLogin(true)
+        }
+    }, [isAuthenticated])
+
     if (loading) {
-        return (
-            <div className="flex items-center justify-center min-h-screen bg-gray-900">
-                <p className="text-white text-lg font-semibold">Loading...</p>
-            </div>
-        )
+        return (<Loading />)
     }
 
     return (
@@ -130,7 +133,6 @@ const AddJobPage = () => {
                     onSubmit={handleSubmit}
                     className="max-w-lg w-full mx-auto p-6 border rounded-lg shadow-lg bg-gray-800 space-y-6"
                 >
-                    {/* Job Title */}
                     <div className="flex flex-col">
                         <label className="text-sm font-medium text-gray-300 mb-1">Job Title</label>
                         <input
@@ -147,8 +149,6 @@ const AddJobPage = () => {
                         />
                         {touched.title && !formData.title && <span className="text-red-500 text-xs mt-1">Required</span>}
                     </div>
-
-                    {/* Description */}
                     <div className="flex flex-col">
                         <label className="text-sm font-medium text-gray-300 mb-1">Description</label>
                         <div className="flex flex-col sm:flex-row gap-2">
@@ -195,8 +195,6 @@ const AddJobPage = () => {
                             <span className="text-gray-500">No description points added</span>
                         )}
                     </div>
-
-                    {/* Qualifications */}
                     <div className="flex flex-col">
                         <label className="text-sm font-medium text-gray-300 mb-1">Qualifications</label>
                         <div className="flex flex-col sm:flex-row gap-2">
@@ -245,8 +243,6 @@ const AddJobPage = () => {
                             <span className="text-gray-500">No qualifications added</span>
                         )}
                     </div>
-
-                    {/* Location */}
                     <div className="flex flex-col">
                         <label className="text-sm font-medium text-gray-300 mb-1">Location</label>
                         <input
@@ -263,8 +259,6 @@ const AddJobPage = () => {
                         />
                         {touched.location && !formData.location && <span className="text-red-500 text-xs mt-1">Required</span>}
                     </div>
-
-                    {/* Experience */}
                     <div className="flex flex-col">
                         <label className="text-sm font-medium text-gray-300 mb-1">Experience (years)</label>
                         <input
@@ -281,8 +275,6 @@ const AddJobPage = () => {
                         />
                         {touched.experience && !formData.experience && <span className="text-red-500 text-xs mt-1">Required</span>}
                     </div>
-
-                    {/* Job Type */}
                     <div className="flex flex-col">
                         <label className="text-sm font-medium text-gray-300 mb-1">Job Type</label>
                         <select
@@ -302,8 +294,6 @@ const AddJobPage = () => {
                         </select>
                         {touched.jobType && !formData.jobType && <span className="text-red-500 text-xs mt-1">Required</span>}
                     </div>
-
-                    {/* Submit Button */}
                     <button
                         type="submit"
                         className="w-full bg-green-600 cursor-pointer text-white py-2 rounded hover:bg-green-700 transition"

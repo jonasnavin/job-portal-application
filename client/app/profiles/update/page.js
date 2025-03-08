@@ -1,5 +1,6 @@
 "use client"
 
+import Loading from "@/app/components/Loading"
 import DataContext from "@/app/context/DataContext"
 import useAuthCheck from "@/app/hooks/useAuthCheck"
 import { getProfileById, updateProfile } from "@/app/utils/profile"
@@ -11,7 +12,7 @@ const Page = () => {
 
     const { isAuthenticated, loading } = useAuthCheck()
 
-    const { userData, setUserData } = useContext(DataContext)
+    const { userData, setUserData, setIsLogin } = useContext(DataContext)
 
     const [skills, setSkills] = useState([])
     const [experience, setExperience] = useState("")
@@ -75,6 +76,21 @@ const Page = () => {
             console.error("Update failed:", error)
             toast.error(error.message)
         }
+    }
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            setIsLogin(true)
+            const fetchProfile = async () => {
+                const response = await getProfileById(userData?._id)
+                setUserData(response.user)
+            }
+            fetchProfile()
+        }
+    }, [isAuthenticated])
+
+    if(loading) {
+        return (<Loading />)
     }
 
     return (
