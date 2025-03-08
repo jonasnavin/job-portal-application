@@ -6,7 +6,8 @@
 3. [Client Folder Structure](#client-folder-structure)
 4. [Server Folder Structure](#server-folder-structure)
 5. [Key Design Decisions](#key-design-decisions)
-6. [API Documentation](#api-documentation)
+6. [Postman API Testing](#postman-api-testing)
+7. [API Documentation](#api-documentation)
 
 ---
 
@@ -173,9 +174,22 @@ job-portal-application/
 
 1. **Next.js** for server-side rendering.
 2. **Tailwind CSS** for efficient and scalable UI development.
-3. **Amazon S3** for storing resumes securely.
-4. **SendGrid** for sending email notifications.
-5. **Role-based access control (RBAC)** for secure authentication.
+3. **SendGrid** for sending email notifications.
+4. **Role-based access control (RBAC)** for secure authentication.
+
+---
+
+## Postman API Testing Guide
+
+### Steps to Import API Collection in Postman
+
+1. Open Postman – Launch the Postman application on your system.
+2. Go to File Menu – Click on `File` in the top-left corner.
+3. Select Import – Choose the `Import` option from the dropdown.
+4. Upload JSON File – Locate and select the `postman_api_testing.json` file from your system.
+5. Confirm Import – Click `Open` to import the API collection.
+
+Once imported, you can easily test the APIs by selecting the desired request and clicking `Send`. 🚀
 
 ---
 
