@@ -29,9 +29,9 @@
    ```
 4. **Configure Environment Variables**
    Create a `.env` file in the root directory with the following:
-   ```bash
+   ```env
     PORT=5000
-    NODE_ENV=development # while deploying change to production
+    NODE_ENV=development
     MONGO_URI=<your_database_url>
     JWT_SECRET=<your_secret_key>
     CLIENT_URL=<your_deployed_frontend_app_url>
