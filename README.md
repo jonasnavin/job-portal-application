@@ -86,6 +86,7 @@ job-portal-application/
 │   │   │   │   ├── page.js
 │   │   ├── components/
 │   │   │   ├── Navbar.js
+│   │   │   ├── Loading.js
 │   │   ├── context/
 │   │   │   ├── DataContext.js
 │   │   ├── dashboard/
@@ -179,7 +180,7 @@ job-portal-application/
 
 ---
 
-## Postman API Testing Guide
+## Postman API Testing
 
 ### Steps to Import API Collection in Postman
 
